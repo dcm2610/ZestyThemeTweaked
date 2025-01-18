@@ -3418,3 +3418,85 @@
   font-size: 1.75em;
   font-weight: 600;
 }
+
+/* Ensure the volume slider container is properly rotated and positioned */
+.osdVolumeSliderContainer {
+    -webkit-flex-grow: 1;
+    flex-grow: 1;
+    min-width: 3em; /* Vertical height before rotation */
+    min-height: 4em; /* Width before rotation */
+    width: 6.5em; /* Actual width after rotation */
+    height: 2em; /* Actual height after rotation */
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+    transition: opacity 0.3s ease 1s, visibility 0s linear 1s;
+    pointer-events: none;
+    transform-origin: top left;
+    transform: rotate(-90deg);
+    background-color: rgba(var(--dark), 0.8);
+    border-radius: var(--rounding);
+    backdrop-filter: blur(3px);
+  }
+  /* Increase the hover area around the mute button */
+.buttonMute {
+    position: relative;
+}
+.buttonMute::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    z-index: 1;
+}
+  /* Make the volume slider container visible and interactive */
+.buttonMute:hover + .osdVolumeSliderContainer,
+.osdVolumeSliderContainer:hover {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto; /* Keep this interactive */
+    transition: opacity 0.3s ease, visibility 0s;
+}
+  /* Keep the volume slider interactive even when not directly hovered */
+.osdVolumeSliderContainer {
+    /* Add this to maintain interaction */
+    pointer-events: auto !important;
+}
+  /* Ensure elements under the volume slider don't interfere */
+.player *:not(.osdVolumeSliderContainer, .buttonMute) {
+    pointer-events: none;
+}
+  /* But when hovering over non-volume controls, allow interaction */
+.player:hover:not(.osdVolumeSliderContainer):not(.buttonMute) * {
+    pointer-events: auto;
+}
+  /* Prevent other elements from interfering when volume slider is active */
+.player .osdVolumeSliderContainer:hover ~ * {
+    pointer-events: none;
+}
+  /* rotate volume number indicator */
+.osdVolumeSliderContainer .sliderBubbleTrack {
+    left: 0;
+    margin: 4.1em 5em;
+    position: absolute;
+    right: 0;
+    transform: rotate(90deg);
+}
+  /* tweak volume slider */
+.osdVolumeSlider.mdl-slider.mdl-js-slider.mdl-slider-hoverthumb {
+    display: initial;
+    position: absolute;
+    left: 4% !important;
+    max-width: 92% !important;
+}
+  /* theme volume OSD */
+.iconOsd, .subtitleSyncContainer {
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+    background: rgba(var(--dark),.8);
+    border-radius: var(--rounding);
+    color: rgba(var(--accent));
+}
+
